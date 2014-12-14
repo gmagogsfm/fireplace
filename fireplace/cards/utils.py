@@ -1,4 +1,6 @@
 import random
+from ..enums import CardType, Race, Zone
+from ..targeting import *
 
 
 drawCard = lambda self, *args: self.controller.draw()

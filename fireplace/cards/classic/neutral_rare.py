@@ -1,27 +1,25 @@
-import random
-from ...card import *
-from fireplace.enums import CardType, Race
+from ..utils import *
 
 
 # Injured Blademaster
-class CS2_181(Card):
+class CS2_181:
 	def action(self):
 		self.hit(self, 4)
 
 
 # Young Priestess
-class EX1_004(Card):
+class EX1_004:
 	def OWN_TURN_END(self):
 		other_minions = [t for t in self.controller.field if t is not self]
 		if other_minions:
 			random.choice(other_minions).buff("EX1_004e")
 
-class EX1_004e(Card):
+class EX1_004e:
 	Health = 1
 
 
 # Alarm-o-Bot
-class EX1_006(Card):
+class EX1_006:
 	def OWN_TURN_BEGIN(self):
 		minions = self.controller.hand.filterByType(CardType.MINION)
 		if minions:
@@ -30,49 +28,49 @@ class EX1_006(Card):
 
 
 # Twilight Drake
-class EX1_043(Card):
+class EX1_043:
 	def action(self):
 		for card in self.controller.hand:
 			self.buff("EX1_043e")
 
-class EX1_043e(Card):
+class EX1_043e:
 	Health = 1
 
 
 # Questing Adventurer
-class EX1_044(Card):
+class EX1_044:
 	def OWN_CARD_PLAYED(self, card):
 		self.buff("EX1_044e")
 
-class EX1_044e(Card):
+class EX1_044e:
 	Atk = 1
 	Health = 1
 
 
 # Ancient Watcher
-class EX1_045(Card):
+class EX1_045:
 	cantAttack = True
 
 
 # Coldlight Oracle
-class EX1_050(Card):
+class EX1_050:
 	def action(self):
 		self.controller.draw(2)
 		self.controller.opponent.draw(2)
 
 
 # Mana Addict
-class EX1_055(Card):
+class EX1_055:
 	def OWN_CARD_PLAYED(self, card):
 		if card.type == CardType.SPELL:
 			self.buff("EX1_055o")
 
-class EX1_055o(Card):
+class EX1_055o:
 	Atk = 2
 
 
 # Sunfury Protector
-class EX1_058(Card):
+class EX1_058:
 	def action(self):
 		for minion in self.adjacentMinions:
 			if minion:
@@ -80,120 +78,95 @@ class EX1_058(Card):
 
 
 # Mind Control Tech
-class EX1_085(Card):
+class EX1_085:
 	def action(self):
 		if len(self.controller.opponent.field) >= 4:
 			self.controller.takeControl(random.choice(self.controller.opponent.field))
 
 
 # Arcane Golem
-class EX1_089(Card):
+class EX1_089:
 	def action(self):
 		self.controller.opponent.maxMana += 1
 
 
 # Defender of Argus
-class EX1_093(Card):
+class EX1_093:
 	def action(self):
 		for target in self.adjacentMinions:
 			target.buff("EX1_093e")
 
-class EX1_093e(Card):
+class EX1_093e:
 	Atk = 1
 	Health = 1
 	taunt = True
 
 
 # Gadgetzan Auctioneer
-class EX1_095(Card):
+class EX1_095:
 	def OWN_CARD_PLAYED(self, card):
 		if card.type == CardType.SPELL:
 			self.controller.draw()
 
 
 # Abomination
-class EX1_097(Card):
+class EX1_097:
 	def deathrattle(self):
 		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
 			self.hit(target, 2)
 
 
 # Coldlight Seer
-class EX1_103(Card):
+class EX1_103:
 	def action(self):
 		for minion in self.controller.field:
 			if minion.race == Race.MURLOC:
 				minion.buff("EX1_103e")
 
-class EX1_103e(Card):
+class EX1_103e:
 	Health = 2
 
 
 # Azure Drake
-class EX1_284(Card):
+class EX1_284:
 	action = drawCard
 
 
 # Murloc Tidecaller
-class EX1_509(Card):
+class EX1_509:
 	def MINION_SUMMONED(self, player, minion):
 		if minion.race == Race.MURLOC:
 			self.buff("EX1_509e")
 
-class EX1_509e(Card):
+class EX1_509e:
 	Atk = 1
 
 
 # Ancient Mage
-class EX1_584(Card):
+class EX1_584:
 	def action(self):
 		for target in self.adjacentMinions:
 			target.buff("EX1_584e")
 
-class EX1_584e(Card):
+class EX1_584e:
 	spellpower = 1
 
 
 # Imp Master
-class EX1_597(Card):
+class EX1_597:
 	def OWN_TURN_END(self):
 		self.hit(self, 1)
 		self.controller.summon("EX1_598")
 
 
-# Nerubian Egg
-class FP1_007(Card):
-	deathrattle = summonMinion("FP1_007t")
-
-
-# Deathlord
-class FP1_009(Card):
-	def deathrattle(self):
-		minions = self.controller.opponent.deck.filterByType(CardType.MINION)
-		if minions:
-			self.controller.opponent.summon(random.choice(minions))
-
-
-# Sludge Belcher
-class FP1_012(Card):
-	deathrattle = summonMinion("FP1_012t")
-
-
-# Wailing Soul
-class FP1_016(Card):
-	def action(self):
-		for target in self.controller.field:
-			target.silence()
-
-
 # Knife Juggler
-class NEW1_019(Card):
+class NEW1_019:
 	def OWN_MINION_SUMMONED(self, minion):
 		self.hit(random.choice(self.controller.getTargets(TARGET_ALL_ENEMY_CHARACTERS)), 1)
 
 
 # Wild Pyromancer
-class NEW1_020(Card):
+class NEW1_020:
 	def AFTER_OWN_CARD_PLAYED(self, card):
 		if card.type == CardType.SPELL:
 			for target in self.controller.getTargets(TARGET_ALL_MINIONS):
@@ -201,7 +174,7 @@ class NEW1_020(Card):
 
 
 # Bloodsail Corsair
-class NEW1_025(Card):
+class NEW1_025:
 	def action(self):
 		weapon = self.controller.opponent.hero.weapon
 		if self.controller.opponent.hero.weapon:
@@ -209,18 +182,18 @@ class NEW1_025(Card):
 
 
 # Master Swordsmith
-class NEW1_037(Card):
+class NEW1_037:
 	def OWN_TURN_END(self):
 		other_minions = [t for t in self.controller.field if t is not self]
 		if other_minions:
 			random.choice(other_minions).buff("NEW1_037e")
 
-class NEW1_037e(Card):
+class NEW1_037e:
 	Atk = 1
 
 
 # Stampeding Kodo
-class NEW1_041(Card):
+class NEW1_041:
 	def action(self):
 		targets = [t for t in self.controller.opponent.field if t.atk <= 2]
 		if targets:
