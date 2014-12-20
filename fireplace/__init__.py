@@ -127,6 +127,7 @@ class Game(Entity):
 		"TURN_BEGIN", "TURN_END",
 		"DAMAGE", "HEAL",
 		"CARD_DESTROYED", "MINION_DESTROYED"
+		"SECRET_REVEAL",
 	]
 
 	def UPDATE(self):
@@ -164,3 +165,7 @@ class Game(Entity):
 		card.controller.broadcast("OWN_CARD_DESTROYED", card)
 		if card.type == CardType.MINION:
 			self.broadcast("MINION_DESTROYED", card)
+
+	def SECRET_REVEAL(self, secret, player):
+		assert secret.type == CardType.SECRET
+		player.broadcast("OWN_SECRET_REVEAL")
